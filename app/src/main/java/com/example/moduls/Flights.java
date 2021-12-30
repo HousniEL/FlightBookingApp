@@ -67,7 +67,7 @@ public class Flights {
         flight_table.createDatabase();
         flight_table.open();
         Cursor cur = flight_table.getFlightInfo(icao_dep, icao_arr, reg, num, other_airport);
-        Boolean thereIsAnotherAirport = other_airport != icao_arr;
+        Boolean thereIsAnotherAirport = !other_airport.contains(icao_arr);
         Flight flight;
         if( cur != null){
 

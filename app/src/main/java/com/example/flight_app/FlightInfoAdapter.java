@@ -58,12 +58,16 @@ public class FlightInfoAdapter extends RecyclerView.Adapter<FlightInfoAdapter.Fl
         holder.jour_arr.setText("JJ Month, " + jour_arr);
         Cursor cur = this.airline_table.getAirlineShortcut(flightsItems.get(position).getCompany());
         if( cur.moveToFirst() ){
-            String col1 = cur.getString(cur.getColumnIndex("Colonne1")).toLowerCase();
-            String col2 = cur.getString(cur.getColumnIndex("Colonne2")).toLowerCase();
+            String col1 = cur.getString(cur.getColumnIndex("Colonne1"));
+            String col2 = cur.getString(cur.getColumnIndex("Colonne2"));
             String shortcut = col2!=null ? col2 : col1;
             Resources res = moncontext.getResources();
-            int resId = res.getIdentifier( shortcut!=null ? shortcut : "notfound", "drawable", moncontext.getPackageName());
-            holder.logo.setImageResource(resId);
+            int resId = res.getIdentifier( shortcut!=null ? shortcut.toLowerCase() : "notfound", "drawable", moncontext.getPackageName());
+            if(resId != 0){
+                holder.logo.setImageResource(resId);
+            } else {
+                holder.logo.setImageResource(res.getIdentifier("notfound", "drawable", moncontext.getPackageName()));
+            }
         }
         Airport airportdep = new Airport(moncontext, flightsItems.get(position).getIcao_dep());
         holder.dep.setText(airportdep.getCity());

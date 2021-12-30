@@ -72,7 +72,8 @@ public class Flight_table {
                     "from Vols where ICAO_DEP=\"" + icao_dep + "\"\n" +
                     "AND ICAO_ARR=\"" + other_airport + "\" AND Registration = \"" + reg + "\" AND Numero_Vol = \"" + num_vol + "\" )\n" +
                     "INNER JOIN Vols fli ON fli.ICAO_ARR = \"" + icao_arr + "\" AND ( fli.ICAO_DEP = arr OR fli.ICAO_DEP = \"" + icao_dep + "\" )\n" +
-                    "AND fli.Registration = reg AND fli.Numero_Vol = num;";
+                    "AND fli.Registration = reg AND fli.Numero_Vol = num\n" +
+                    "GROUP BY num, reg, dep, arr, HH;";
             Cursor mCur = mDb.rawQuery(sql, null);
             return mCur;
         } catch (SQLException mSQLException) {
@@ -88,7 +89,8 @@ public class Flight_table {
                     "from ( select icao_dep as dep, icao_arr as arr, Numero_Vol as num, Registration as reg, Heure_DEP as HH, Jours as JJ \n" +
                     "from Vols where ICAO_DEP=\"" + icao_dep + "\" )\n" +
                     "INNER JOIN Vols fli ON fli.ICAO_ARR = \"" + icao_arr + "\" AND ( fli.ICAO_DEP = arr OR fli.ICAO_DEP = \"" + icao_dep + "\" )\n" +
-                    "AND fli.Registration = reg AND fli.Numero_Vol = num;";
+                    "AND fli.Registration = reg AND fli.Numero_Vol = num\n" +
+                    "GROUP BY num, reg, JJ;";
             cur = mDb.rawQuery(sql, null);
         } catch (SQLException mSQLException) {
             mSQLException.printStackTrace();
